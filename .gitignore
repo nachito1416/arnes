@@ -1,0 +1,29 @@
+# ───────────────────────────────────────────────────────────────────────────
+# .gitignore del arnés (plantilla). Copialo/adaptalo a cada proyecto y sumá lo
+# específico del stack (node_modules/, .next/, __pycache__/, .venv/, etc.).
+# Objetivo: VERSIONAR el arnés (agentes, comandos, skills) y NUNCA los secretos.
+# ───────────────────────────────────────────────────────────────────────────
+
+# Secretos: NUNCA versionar (LÍNEA ROJA)
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+
+# Arnés de Claude Code: versionar el equipo (prompts/SOPs), NO lo local/secreto
+/.claude/*
+!/.claude/agents/
+!/.claude/commands/
+!/.claude/skills/
+/.claude/settings.local.json
+/.claude/.credentials.json
+# (Para versionar settings compartidos del equipo, agregá:  !/.claude/settings.json)
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

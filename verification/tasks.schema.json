@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Harness tasks.json",
+  "description": "Esquema del archivo de tareas del arnes.",
+  "type": "object",
+  "required": ["project", "tasks"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "project": { "type": "string" },
+    "description": { "type": "string" },
+    "updated": { "type": "string" },
+    "states": {
+      "type": "array",
+      "items": { "enum": ["pending", "in_progress", "done", "blocked"] }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^T-[0-9]+$" },
+          "title": { "type": "string" },
+          "status": { "enum": ["pending", "in_progress", "done", "blocked"] },
+          "owner": { "enum": ["orquestador", "lector", "implementador", "revisor", null] },
+          "priority": { "enum": ["low", "medium", "high"] },
+          "notes": { "type": ["string", "null"] },
+          "progress_log": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

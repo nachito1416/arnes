@@ -1,0 +1,45 @@
+{
+  "$schema": "./verification/tasks.schema.json",
+  "project": "Harness Engineering",
+  "description": "Archivo de tareas del arnes. Estados: pending | in_progress | done | blocked. El orquestador lee y actualiza este archivo; cada subagente reporta su avance en progress/.",
+  "updated": "2026-06-01",
+  "states": ["pending", "in_progress", "done", "blocked"],
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "Definir el proyecto en CLAUDE.md (seccion 2)",
+      "status": "pending",
+      "owner": "orquestador",
+      "priority": "high",
+      "notes": "Reemplazar el placeholder con la descripcion real del proyecto.",
+      "progress_log": null
+    },
+    {
+      "id": "T-002",
+      "title": "Adaptar scripts/init a la stack real del proyecto",
+      "status": "pending",
+      "owner": "implementador",
+      "priority": "high",
+      "notes": "Conectar los tests/lint/typecheck reales en init.sh e init.ps1.",
+      "progress_log": null
+    },
+    {
+      "id": "T-003",
+      "title": "Configurar las capas de verificacion (Pilar 3)",
+      "status": "pending",
+      "owner": "revisor",
+      "priority": "medium",
+      "notes": "Tests automatizados, linter, type check y Playwright. Ver verification/.",
+      "progress_log": null
+    },
+    {
+      "id": "T-004",
+      "title": "Actualizar arnes a version con 4 elementos del agente + versionado en git",
+      "status": "done",
+      "owner": "orquestador",
+      "priority": "high",
+      "notes": "4 elementos ya presentes (SOUL/memory/context/skills); git init + commit inicial; memory.md sembrada con preferencias del usuario.",
+      "progress_log": "progress/2026-06-01-actualizacion-arnes.md"
+    }
+  ]
+}
