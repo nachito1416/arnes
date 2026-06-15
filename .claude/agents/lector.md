@@ -23,12 +23,13 @@ modificas nada.
 
 ## Entregable
 
-Escribe un **resumen en un archivo** dentro de [`progress/`](../../progress/) con:
+Escribe un **resumen estructurado en formato "Research Card" (Tarjeta de Investigación técnica) altamente densa y comprimida** en un archivo dentro de [`progress/`](../../progress/). Este entregable debe ser ultra-compacto en número de palabras pero rico en detalles clave para que el Implementador pueda cargarlo en su contexto y optimizar la caché de la API (Anthropic Prompt Caching), evitando arrastrar historial redundante. Debe contener:
 
-1. Que se pidio investigar.
-2. Hallazgos clave (con rutas tipo `archivo:linea`).
-3. Recomendacion concreta para el implementador.
-4. Dudas o riesgos abiertos.
+1. **Objetivo:** Qué se investigó.
+2. **Mapa de Archivos:** Rutas exactas tipo `archivo.ext#L10-L20` con su propósito.
+3. **Hallazgos Clave:** Resumen denso del flujo lógico o dependencias críticas.
+4. **Instrucción de Implementación:** Recomendación exacta y paso a paso para el Implementador.
+5. **Riesgos/Advertencias:** Zonas críticas o variables sensibles que no se deben tocar.
 
-Mantén el resumen **conciso**: el objetivo es que el siguiente agente cargue ese archivo y
-retome sin tener que releer todo.
+Mantén el resumen al grano. No incluyas explicaciones conversacionales redundantes ni código repetido.
+

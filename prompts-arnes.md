@@ -36,10 +36,9 @@ a) .claude/agents/ — 4 subagentes (formato Claude Code, TODOS en `model: opus`
    - revisor: corre el preflight y valida; aprueba o rechaza. Algo está "hecho" SOLO si él aprueba.
    Embebé en cada subagente las reglas duras REALES de este proyecto.
 b) SOUL.md — identidad/voz/misión del asistente (con lo que detectaste; si dudás, plantilla + pedímelo).
-c) memory/ con memory.md (preferencias/correcciones/aprendizajes; se lee al inicio, se actualiza al
-   corregir) + README.
+c) memory/ con user_profile.md (preferencias del usuario, idioma, tono; portable) + memory.md (lecciones técnicas específicas del repo) + decisions.md + README.
 d) context/ con README — dominio curado que se carga BAJO DEMANDA.
-e) .claude/skills/ con README + skill de ejemplo "registrar-aprendizaje" (escribe en memory/memory.md).
+e) .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (bucles de aprendizaje y curación autónoma).
 f) scripts/preflight.* — corre la verificación REAL (estructura del arnés → lint + typecheck +
    tests) en orden, se detiene al primer fallo y sale con código ≠ 0. Exponelo como `npm run
    preflight` (o el equivalente del stack).
@@ -50,7 +49,7 @@ i) .gitignore — versioná el arnés (.claude/agents/, .claude/commands/, .clau
    los secretos (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json). Verificá
    con `git check-ignore` que los subagentes se versionan y los secretos NO.
 j) CLAUDE.md: NO lo reescribas. Proponé una sección corta (~15 líneas) "Subagentes + preflight +
-   4 elementos" — que mande LEER memory/memory.md al inicio y actualizarlo cuando me corrijas — y
+   4 elementos" — que mande LEER memory/user_profile.md y memory/memory.md al inicio y actualizarlos cuando me corrijas — y
    mostrame el texto exacto antes de aplicarla.
 
 REGLAS: todo aditivo; no sobrescribas archivos ni toques código de producto; respetá las
@@ -86,11 +85,10 @@ Creá:
    lo crítico, no escribe código), lector (investiga, solo lectura), implementador (escribe;
    RECHAZA áreas críticas sin plan humano numerado; no marca "hecho"), revisor (verifica y
    aprueba/rechaza; "hecho" solo cuando él aprueba). Reglas del proyecto embebidas.
-4. memory/ con memory.md (preferencias/correcciones/aprendizajes; el agente lo lee al inicio y lo
-   actualiza cuando lo corrijo) + README.
+4. memory/ con user_profile.md (preferencias del usuario; portable) + memory.md (lecciones técnicas del repo) + decisions.md + README.
 5. context/ con README — dominio curado que se carga BAJO DEMANDA (no infla el CLAUDE.md).
-6. .claude/skills/ con README + skill de ejemplo "registrar-aprendizaje" (escribe en memory/memory.md).
-7. scripts/preflight.* — verificación (estructura del arnés → lint + typecheck + tests del stack
+6. .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (procedimientos estándar y aprendizaje autónomo).
+7. scripts/preflight.* — verificación (estructura del arnés → incluye user_profile.md y memory.md → lint + typecheck + tests del stack
    elegido), se detiene al primer fallo. Exponelo como `npm run preflight` (o equivalente).
 8. tasks.json — tareas con estados (pending / in_progress / done / blocked).
 9. progress/ — bitácora por sesión (README + plantilla).
@@ -99,8 +97,7 @@ Creá:
 11. .gitignore — versioná el arnés (.claude/agents/, .claude/commands/, .claude/skills/) e IGNORÁ
     los secretos (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json).
 
-Wiring: CLAUDE.md lee memory/memory.md al inicio y tiene la regla "cuando me corrijas o aprendas
-algo, actualizá memory/memory.md".
+Wiring: CLAUDE.md lee memory/user_profile.md y memory/memory.md al inicio y tiene la regla "cuando me corrijas o aprendas algo, actualizá memory/user_profile.md o memory/memory.md".
 
 REGLAS: mantené CLAUDE.md corto y el contexto mínimo; NUNCA toques/leas/commitees .env ni secretos;
 no instales dependencias sin avisar.
@@ -140,21 +137,21 @@ y mostrame el plan ANTES de tocar nada; esperá mi "OK ejecuta".
    adaptá a este proyecto.
 2. Detectá qué YA existe y agregá SOLO lo que falte (sin reescribir el CLAUDE.md/AGENTS.md ni el
    código de producto):
-   - SOUL.md (identidad/voz/misión; si no sabés el dominio, plantilla editable + pedímelo).
-   - memory/ con memory.md + README. Sembrá memory.md con las preferencias/aprendizajes que ya conozcas.
-   - context/ con README (si no está).
-   - .claude/skills/ con README + skill de ejemplo "registrar-aprendizaje" que escriba en memory/memory.md.
+    - SOUL.md (identidad/voz/misión; si no sabés el dominio, plantilla editable + pedímelo).
+    - memory/ con user_profile.md (perfil de usuario portable) + memory.md (lecciones técnicas) + README.
+    - context/ con README (si no está).
+    - .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (curador autónomo).
 3. Versioná el arnés en git (para que la nube/VPS lo tengan al clonar): asegurate de que el
    .gitignore VERSIONE .claude/agents/, .claude/commands/ y .claude/skills/, e IGNORE los secretos
    (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json). Verificá con
    `git check-ignore`.
 4. Enganchalo en lo que YA existe (ediciones MÍNIMAS):
-   - Archivo de entrada: sumá los 4 elementos al mapa; que LEA memory/memory.md al inicio; regla
-     "cuando me corrijas o aprendas algo, actualizá memory/memory.md"; sección corta de los 4
-     elementos. Mantenelo < 200 líneas.
-   - Comando de inicio de día (si existe): que también lea memory/memory.md.
-   - Script de verificación (preflight/init): sumá SOUL.md, memory/, context/ y .claude/skills/ a
-     la capa de ESTRUCTURA. NO toques las capas de lint/typecheck/tests.
+    - Archivo de entrada: sumá los 4 elementos al mapa; que LEA memory/user_profile.md y memory/memory.md al inicio; regla
+      "cuando me corrijas o aprendas algo, actualizá memory/user_profile.md o memory/memory.md"; sección corta de los 4
+      elementos. Mantenelo < 200 líneas.
+    - Comando de inicio de día (si existe): que lea memory/user_profile.md y memory/memory.md.
+    - Script de verificación (preflight/init): sumá SOUL.md, memory/user_profile.md, memory/memory.md, context/ y .claude/skills/ a
+      la capa de ESTRUCTURA. NO toques las capas de lint/typecheck/tests.
    - Registrá el cambio en progress/ y, si hay tasks.json, dejá la tarea en done.
 
 REGLAS: aditivo; NUNCA toques, leas ni commitees .env ni secretos; no instales dependencias sin

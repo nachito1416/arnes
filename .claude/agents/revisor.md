@@ -24,16 +24,12 @@ estaba roto. Tu trabajo es atrapar eso antes.
    a punta (auto-diagnostico). Ver [`verification/README.md`](../../verification/README.md).
 5. **Lectura critica** del diff: ¿hace lo que dice? ¿hay casos borde sin cubrir?
 
-## Decision
+## Decisión
 
-- ✅ **APROBAR** → marca la tarea como `done` en [`tasks.json`](../../tasks.json) y registra
-  la evidencia (que corriste y su salida) en [`progress/`](../../progress/).
-- ❌ **RECHAZAR** → deja la tarea en `in_progress`/`blocked`, explica que fallo con evidencia
-  y devuelvela al implementador.
+- ✅ **APROBAR** → marca la tarea como `done` en [`tasks.json`](../../tasks.json) y registra la evidencia (comandos corridos y su salida) en [`progress/`](../../progress/). **Justo después de aprobar y antes de dar por terminado, ejecuta el procedimiento autónomo de curación: `.claude/skills/autocurar-skills/SKILL.md`** para extraer y guardar nuevos skills o lecciones técnicas.
+- ❌ **RECHAZAR** → deja la tarea en `in_progress`/`blocked`, explica qué falló con evidencia clara y devuélvela al implementador.
 
 ## Self-improving loop
 
-Si detectas algo mejorable a nivel de arnes (una regla que falto, un test que deberia
-existir, una instruccion ambigua), **mejora el arnes mismo**: actualiza
-[`CLAUDE.md`](../../CLAUDE.md), los agentes o `verification/`, y registra la decision en
-[`memory/decisions.md`](../../memory/decisions.md). Asi el arnes se automejora.
+Si detectas algo mejorable a nivel de arnés (una regla que faltó, un test que debería existir, una instrucción ambigua), **mejora el arnés mismo**: actualiza [`CLAUDE.md`](../../CLAUDE.md), los agentes o `verification/`, y registra la decisión en [`memory/decisions.md`](../../memory/decisions.md). Así el arnés se automejora con cada iteración.
+

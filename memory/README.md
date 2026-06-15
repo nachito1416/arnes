@@ -27,7 +27,7 @@ de tokens: mas espacio no significa mejor. Externalizar la memoria es lo que per
 
 ## Archivos
 
-- [`memory.md`](memory.md) — **preferencias, correcciones y aprendizajes** del día a día. El agente
-  lo **lee al inicio** de cada sesión y lo **actualiza cuando lo corrigen** (self-improving loop).
-  Una línea por aprendizaje.
-- [`decisions.md`](decisions.md) — **decisiones de arquitectura** y su justificación (ADR ligero).
+- [`user_profile.md`](user_profile.md) — **Perfil del usuario** (preferencias de comunicación, tono, idioma, nivel de detalle y reglas de interacción). Es portátil entre proyectos.
+- [`memory.md`](memory.md) — **Lecciones aprendidas y reglas específicas del proyecto**. Registra atajos, trucos de desarrollo y restricciones técnicas descubiertas en el repositorio.
+- [`decisions.md`](decisions.md) — **Decisiones de arquitectura** y su justificación (ADR ligero).
+

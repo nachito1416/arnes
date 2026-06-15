@@ -14,11 +14,13 @@ Corré el script de verificación:
 sobre un proyecto roto.
 
 ## 2. ¿Dónde quedamos? (memoria fuera del modelo)
-- Leé `memory/memory.md` (preferencias y aprendizajes acumulados).
-- Leé las últimas entradas de `progress/`.
-- Leé `tasks.json` (estados: pending / in_progress / done / blocked).
+- Lee [`memory/user_profile.md`](../../memory/user_profile.md) (perfil y tus preferencias de comunicación/control).
+- Lee [`memory/memory.md`](../../memory/memory.md) (lecciones técnicas específicas del repositorio).
+- Lee las últimas entradas de `progress/`.
+- Lee `tasks.json` (estados: pending / in_progress / done / blocked).
 
-No releas todo el proyecto: para eso existe esa memoria externa.
+No releas todo el proyecto: para eso existe esta memoria externa dividida.
+
 
 ## 3. Briefing + próxima tarea
 Resumí: estado del preflight, en qué se quedó el equipo, y recomendá **UN** ítem de

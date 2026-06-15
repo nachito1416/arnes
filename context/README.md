@@ -24,3 +24,11 @@ demanda**, no de entrada.
 
 Desde `CLAUDE.md` o desde una tarea: *"para el modelo de datos, lee `context/esquema-db.md`"*.
 Asi el contexto entra solo cuando hace falta y la ventana se mantiene limpia.
+
+## Ejemplo incluido: dominio SaaS
+
+Contexto real ya cargado (destilado del curso para humanos en `C:\SaaS`):
+
+- [`saas-fundamentos.md`](saas-fundamentos.md) — qué es un SaaS, las 6 piezas, la ruta de construcción.
+- [`saas-stack-bolivia.md`](saas-stack-bolivia.md) — stack por defecto y **pagos por QR** (Stripe está
+  bloqueado en Bolivia; verificar el pago es un paso aparte).

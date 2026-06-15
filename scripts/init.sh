@@ -22,7 +22,7 @@ info "🐴 Verificando el arnes en: $ROOT"
 
 # 1) Archivos clave del arnes ------------------------------------------------
 info "[1/4] Estructura del arnes"
-for f in CLAUDE.md tasks.json README.md SOUL.md memory/memory.md; do
+for f in CLAUDE.md tasks.json README.md SOUL.md memory/memory.md memory/user_profile.md; do
   [ -f "$f" ] && ok "existe $f" || bad "falta $f"
 done
 for d in scripts .claude/agents .claude/commands .claude/skills context memory progress verification; do

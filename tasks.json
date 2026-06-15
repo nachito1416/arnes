@@ -2,7 +2,7 @@
   "$schema": "./verification/tasks.schema.json",
   "project": "Harness Engineering",
   "description": "Archivo de tareas del arnes. Estados: pending | in_progress | done | blocked. El orquestador lee y actualiza este archivo; cada subagente reporta su avance en progress/.",
-  "updated": "2026-06-01",
+  "updated": "2026-06-12",
   "states": ["pending", "in_progress", "done", "blocked"],
   "tasks": [
     {
@@ -40,6 +40,15 @@
       "priority": "high",
       "notes": "4 elementos ya presentes (SOUL/memory/context/skills); git init + commit inicial; memory.md sembrada con preferencias del usuario.",
       "progress_log": "progress/2026-06-01-actualizacion-arnes.md"
+    },
+    {
+      "id": "T-005",
+      "title": "Poblar context/ con el dominio SaaS (destilado del curso)",
+      "status": "done",
+      "owner": "implementador",
+      "priority": "medium",
+      "notes": "saas-fundamentos.md + saas-stack-bolivia.md (pagos QR/Bolivia). Destilado de C:\\SaaS.",
+      "progress_log": "progress/2026-06-12-context-saas.md"
     }
   ]
 }

@@ -22,7 +22,7 @@ Info "Verificando el arnes en: $root"
 
 # 1) Archivos y carpetas clave ----------------------------------------------
 Info "[1/4] Estructura del arnes"
-foreach ($f in 'CLAUDE.md','tasks.json','README.md','SOUL.md','memory/memory.md') {
+foreach ($f in 'CLAUDE.md','tasks.json','README.md','SOUL.md','memory/memory.md','memory/user_profile.md') {
   if (Test-Path $f) { Ok "existe $f" } else { Bad "falta $f" }
 }
 foreach ($d in 'scripts','.claude/agents','.claude/commands','.claude/skills','context','memory','progress','verification') {
