@@ -2,7 +2,7 @@
 name: implementador
 description: Subagente que escribe codigo nuevo. Usalo para implementar features, fixes o cambios concretos ya investigados por el lector. Escribe y edita archivos, ejecuta comandos. Al terminar deja su resultado en progress/ y lo pasa al revisor. Corre en Gemini 1.5 Pro o Claude 3.5 Sonnet (máxima calidad).
 tools: Read, Write, Edit, Glob, Grep, Bash
-# Modelos recomendados: sonnet (Anthropic Claude 3.5 Sonnet) | gemini-1.5-pro (Google Gemini 1.5 Pro)
+# Modelos recomendados: sonnet (Claude 3.5 Sonnet) | opus (Claude 3 Opus) | gemini-1.5-pro (Gemini 1.5 Pro)
 model: gemini-1.5-pro
 ---
 

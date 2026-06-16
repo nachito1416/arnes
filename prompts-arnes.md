@@ -1,7 +1,7 @@
 # Prompts para montar el arnés (Harness Engineering) en cualquier proyecto
 
 Pegá uno de estos prompts en Claude Code **con el proyecto abierto** (para que descubra
-`.claude/agents/` y los comandos). Los subagentes se crean en `model: gemini-1.5-pro` (Gemini 1.5 Pro) o `model: sonnet` (Claude 3.5 Sonnet).
+`.claude/agents/` y los comandos). Los subagentes se crean en `model: gemini-1.5-pro` (Gemini 1.5 Pro) o `model: Opus` (Claude Opus 4.8).
 
 El arnés actual incluye los **3 pilares** (vive en el código · subagentes por rol · verificación)
 y los **4 elementos del agente** (loop · contexto · memoria · herramientas). Prompt A y B ya lo
@@ -28,7 +28,7 @@ PASO 1 — Explorá y reportá:
   datos, migraciones, datos personales/sensibles) que NO se tocan sin plan humano numerado.
 
 PASO 2 — Proponé el plan (agregar SOLO lo que falte, todo aditivo):
-a) .claude/agents/ — 4 subagentes (formato Claude Code, TODOS en `model: gemini-1.5-pro` o `model: sonnet` según prefieras Gemini o Anthropic):
+a) .claude/agents/ — 4 subagentes (formato Claude Code, TODOS en `model: gemini-1.5-pro` o `model: opus` o `model: sonnet` según prefieras Gemini o Anthropic):
    - orquestador: descompone y delega; exige plan para lo crítico; no escribe código.
    - lector: investiga en SOLO LECTURA y deja su resumen en progress/.
    - implementador: escribe respetando las reglas; RECHAZA tocar áreas críticas sin plan humano
@@ -81,7 +81,7 @@ Creá:
    carpetas, reglas duras, cómo se verifica, flujo de subagentes y los 4 elementos. Cortito; lo
    extenso va en archivos enlazados.
 2. SOUL.md — identidad/voz/misión del asistente (con las respuestas de la entrevista).
-3. .claude/agents/ — 4 subagentes (TODOS en `model: gemini-1.5-pro` o `model: sonnet`): orquestador (delega, exige plan para
+3. .claude/agents/ — 4 subagentes (TODOS en `model: gemini-1.5-pro` o `model: opus` o `model: sonnet`): orquestador (delega, exige plan para
    lo crítico, no escribe código), lector (investiga, solo lectura), implementador (escribe;
    RECHAZA áreas críticas sin plan humano numerado; no marca "hecho"), revisor (verifica y
    aprueba/rechaza; "hecho" solo cuando él aprueba). Reglas del proyecto embebidas.

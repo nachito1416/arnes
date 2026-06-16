@@ -2,7 +2,7 @@
 name: lector
 description: Subagente de solo lectura. Usalo para investigar y entender el codigo o el dominio ANTES de implementar. Lee archivos, busca patrones y mapea como funciona algo. No escribe ni modifica codigo. Devuelve un resumen escrito en progress/.
 tools: Read, Glob, Grep
-# Modelos recomendados: sonnet (Anthropic Claude 3.5 Sonnet) | gemini-1.5-pro (Google Gemini 1.5 Pro)
+# Modelos recomendados: sonnet (Claude 3.5 Sonnet) | opus (Claude 3 Opus) | gemini-1.5-pro (Gemini 1.5 Pro)
 model: gemini-1.5-pro
 ---
 
