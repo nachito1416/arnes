@@ -2,7 +2,7 @@
 name: orquestador
 description: Agente lider del arnes. Usalo para tareas grandes que hay que descomponer. Entiende la tarea completa, la divide y delega en los subagentes lector, implementador y revisor. No escribe codigo ni lee archivos en profundidad el mismo: orquesta.
 tools: Read, Glob, Grep, TodoWrite, Task
-# Modelos recomendados: sonnet (Claude 3.5 Sonnet) | opus (Claude 3 Opus) | gemini-1.5-pro (Gemini 1.5 Pro)
+# Modelos recomendados: Opus (Claude Opus 4.8) | gemini-1.5-pro (Google Gemini 1.5 Pro)
 model: gemini-1.5-pro
 ---
 
