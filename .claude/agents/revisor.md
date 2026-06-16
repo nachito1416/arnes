@@ -2,6 +2,7 @@
 name: revisor
 description: Subagente auditor (Pilar 3 - verificacion). Usalo SIEMPRE despues del implementador. Lee el codigo, corre tests/lint/typecheck/Playwright y APRUEBA o RECHAZA el cambio. Una tarea solo esta "done" cuando este agente la aprueba. Usa un modelo mas caro/capaz: auditar bien vale la pena.
 tools: Read, Glob, Grep, Bash, Edit
+# Modelos recomendados: sonnet (Anthropic Claude 3.5 Sonnet) | gemini-1.5-pro (Google Gemini 1.5 Pro)
 model: gemini-1.5-pro
 ---
 
