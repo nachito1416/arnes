@@ -3,9 +3,10 @@
 Pegá uno de estos prompts en Claude Code **con el proyecto abierto** (para que descubra
 `.claude/agents/` y los comandos). Los subagentes se crean TODOS en `model: opus` (Claude Opus 4.8, el tope del arnés).
 
-El arnés actual incluye los **3 pilares** (vive en el código · subagentes por rol · verificación)
-y los **4 elementos del agente** (loop · contexto · memoria · herramientas). Prompt A y B ya lo
-montan COMPLETO en una sola pasada.
+El arnés actual incluye los **3 pilares** (vive en el código · subagentes por rol · verificación),
+los **4 elementos del agente** (loop · contexto · memoria · herramientas), la **capa de seguridad**
+(auditor + gate en zona crítica), el **loop semi-automático** (worktrees + gates) y el **enforcement
+por hooks** (reinyecta las reglas cada turno). Prompt A y B lo montan COMPLETO en una sola pasada.
 
 ---
 
@@ -48,12 +49,18 @@ f) scripts/preflight.* — corre la verificación REAL (estructura del arnés �
 g) progress/ — bitácora por sesión (README con la convención + un ejemplo).
 h) .claude/commands/empezar-dia.md — /empezar-dia: briefing de SOLO LECTURA (corre el preflight,
    lee memory/memory.md + progress/ + el roadmap/tareas, propone la próxima tarea y espera mi OK).
-i) .gitignore — versioná el arnés (.claude/agents/, .claude/commands/, .claude/skills/) e IGNORÁ
-   los secretos (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json). Verificá
-   con `git check-ignore` que los subagentes se versionan y los secretos NO.
+i) .gitignore — versioná el arnés (.claude/agents/, .claude/commands/, .claude/skills/,
+   .claude/settings.json) e IGNORÁ los secretos (.env, .env.*, .claude/settings.local.json,
+   .claude/.credentials.json). Verificá con `git check-ignore` que el arnés se versiona y los secretos NO.
 j) CLAUDE.md: NO lo reescribas. Proponé una sección corta (~15 líneas) "Subagentes + preflight +
    4 elementos" — que mande LEER memory/user_profile.md y memory/memory.md al inicio y actualizarlos cuando me corrijas — y
    mostrame el texto exacto antes de aplicarla.
+k) .claude/commands/loop-cerrado.md + scripts/loop.* + loops/ — modo LOOP semi-automático: el equipo
+   itera solo en un git worktree aislado, con tope de iteraciones y gates; en zona crítica frena para
+   tu OK antes de `main`; el deploy a producción es SIEMPRE manual.
+l) .claude/settings.json (hooks) + verification/REGLAS-ARNES.md — ENFORCEMENT: hooks SessionStart +
+   UserPromptSubmit que reinyectan las reglas del arnés en cada turno para que no se salte a medio
+   trabajo. Versioná settings.json; NUNCA settings.local.json.
 
 REGLAS: todo aditivo; no sobrescribas archivos ni toques código de producto; respetá las
 convenciones existentes; NUNCA toques, leas ni commitees .env ni secretos; no instales
@@ -99,8 +106,15 @@ Creá:
 9. progress/ — bitácora por sesión (README + plantilla).
 10. .claude/commands/empezar-dia.md — /empezar-dia: briefing de inicio (corre el preflight, lee
     memory/memory.md + progress/ + tasks.json, propone la próxima tarea, espera mi OK).
-11. .gitignore — versioná el arnés (.claude/agents/, .claude/commands/, .claude/skills/) e IGNORÁ
-    los secretos (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json).
+11. .gitignore — versioná el arnés (.claude/agents/, .claude/commands/, .claude/skills/,
+    .claude/settings.json) e IGNORÁ los secretos (.env, .env.*, .claude/settings.local.json,
+    .claude/.credentials.json).
+12. Modo LOOP semi-automático: .claude/commands/loop-cerrado.md + scripts/loop.* + loops/ — el equipo
+    itera solo en un worktree aislado, con tope de iteraciones y gates; en zona crítica frena para tu
+    OK antes de main; deploy a producción siempre manual.
+13. ENFORCEMENT por hooks: .claude/settings.json (SessionStart + UserPromptSubmit) +
+    verification/REGLAS-ARNES.md — reinyectan las reglas del arnés en cada turno para que no se salte a
+    medio trabajo. Versioná settings.json; nunca settings.local.json.
 
 Wiring: CLAUDE.md lee memory/user_profile.md y memory/memory.md al inicio y tiene la regla "cuando me corrijas o aprendas algo, actualizá memory/user_profile.md o memory/memory.md".
 
@@ -147,10 +161,12 @@ y mostrame el plan ANTES de tocar nada; esperá mi "OK ejecuta".
     - context/ con README (si no está).
     - .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (curador autónomo).
     - .claude/agents/auditor-seguridad.md + verification/SECURITY.md (capa de seguridad: gate obligatorio en zonas críticas — dinero/auth/datos/migraciones).
+    - Modo LOOP: .claude/commands/loop-cerrado.md + scripts/loop.* + loops/ (loop semi-automático en worktrees, con gates y tope de iteraciones).
+    - ENFORCEMENT: .claude/settings.json (hooks SessionStart + UserPromptSubmit) + verification/REGLAS-ARNES.md (reinyectan las reglas cada turno para que el arnés no se salte a medio trabajo).
 3. Versioná el arnés en git (para que la nube/VPS lo tengan al clonar): asegurate de que el
-   .gitignore VERSIONE .claude/agents/, .claude/commands/ y .claude/skills/, e IGNORE los secretos
-   (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json). Verificá con
-   `git check-ignore`.
+   .gitignore VERSIONE .claude/agents/, .claude/commands/, .claude/skills/ y .claude/settings.json,
+   e IGNORE los secretos (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json).
+   Verificá con `git check-ignore`.
 4. Enganchalo en lo que YA existe (ediciones MÍNIMAS):
     - Archivo de entrada: sumá los 4 elementos al mapa; que LEA memory/user_profile.md y memory/memory.md al inicio; regla
       "cuando me corrijas o aprendas algo, actualizá memory/user_profile.md o memory/memory.md"; sección corta de los 4
@@ -167,7 +183,7 @@ Al terminar, corré la verificación y mostrame que pasa en verde.
 
 NOTA (repos en nube/VPS): si .claude/agents|commands|skills estaban ignorados, su CONTENIDO solo
 existe en tu máquina local. Tras corregir el .gitignore, agregá y pusheá esos archivos DESDE LOCAL
-(git add .claude/agents .claude/commands .claude/skills && commit && push). Antes del commit,
+(git add .claude/agents .claude/commands .claude/skills .claude/settings.json && commit && push). Antes del commit,
 verificá que no haya tokens/secretos dentro (son prompts/SOPs, no debería).
 ```
 

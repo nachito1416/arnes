@@ -76,6 +76,15 @@
       "priority": "high",
       "notes": "Hooks en .claude/settings.json (versionado) que reinyectan verification/REGLAS-ARNES.md cada turno y al iniciar sesion, para que Claude no se salte el arnes a medio trabajo. Verificado: pipe-test + JSON valido + git check-ignore. Activar con /hooks o reiniciar Claude Code.",
       "progress_log": "progress/2026-06-21-enforcement-hooks.md"
+    },
+    {
+      "id": "T-009",
+      "title": "Propagar loop + hooks a las plantillas de prompts-arnes.md",
+      "status": "done",
+      "owner": "orquestador",
+      "priority": "medium",
+      "notes": "Prompts A/B/D ahora montan tambien el loop semi-automatico (/loop-cerrado + scripts/loop.* + loops/) y el enforcement por hooks (.claude/settings.json + REGLAS-ARNES.md), y versionan settings.json. Proyectos nuevos nacen con todo.",
+      "progress_log": "progress/2026-06-21-propagacion-plantillas.md"
     }
   ]
 }
