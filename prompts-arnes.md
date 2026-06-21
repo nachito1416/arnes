@@ -141,9 +141,10 @@ para los artefactos, un flag --e2e en scripts/preflight, y que el subagente revi
 
 ## PROMPT D — Actualizar un arnés YA instalado a la versión actual
 
-> Para un proyecto que ya tiene el arnés base pero le faltan los 4 elementos (SOUL.md, memory/,
-> context/, .claude/skills/) y/o el versionado correcto en git. Esta plantilla
-> (`C:\Harness Engineering`) ya los trae como referencia.
+> Para un proyecto que ya tiene una versión VIEJA del arnés y le faltan piezas nuevas (capa de
+> seguridad, loop semi-automático, hooks de enforcement, los 4 elementos) y/o el versionado en git.
+> La versión ACTUAL del arnés está en el repo público https://github.com/nachito1416/arnes
+> (o, si estás en la misma PC, en `C:\Harness Engineering`).
 
 ```
 Quiero ACTUALIZAR a la versión ACTUAL el arnés que ya tiene este proyecto, ADITIVO y sin romper
@@ -151,9 +152,13 @@ nada. Pueden faltarle los 4 elementos del agente (identidad SOUL.md, memoria mem
 contexto context/, skills .claude/skills/) y/o el versionado del arnés en git. Entrá en PLAN MODE
 y mostrame el plan ANTES de tocar nada; esperá mi "OK ejecuta".
 
-1. Leé como REFERENCIA de estilo la plantilla en C:\Harness Engineering (SOUL.md, memory/README.md,
-   memory/memory.md, context/README.md, .claude/skills/ y el .gitignore). NO la copies textual:
-   adaptá a este proyecto.
+1. Conseguí la versión ACTUAL del arnés como REFERENCIA (NO la copies textual: adaptá a este proyecto):
+   - Recomendado (cualquier máquina): cloná `https://github.com/nachito1416/arnes` en una carpeta
+     TEMPORAL fuera de este proyecto (ej. `../arnes-ref`). NO copies su `.git` ni la metas en el repo
+     de este proyecto: leé de ahí y recreá/adaptá los archivos acá.
+   - O, si estás en la misma PC, usá `C:\Harness Engineering`.
+   Revisá SOUL.md, memory/, context/, .claude/ (agents, commands, skills, settings.json), scripts/,
+   verification/ y el .gitignore.
 2. Detectá qué YA existe y agregá SOLO lo que falte (sin reescribir el CLAUDE.md/AGENTS.md ni el
    código de producto):
     - SOUL.md (identidad/voz/misión; si no sabés el dominio, plantilla editable + pedímelo).
@@ -163,6 +168,7 @@ y mostrame el plan ANTES de tocar nada; esperá mi "OK ejecuta".
     - .claude/agents/auditor-seguridad.md + verification/SECURITY.md (capa de seguridad: gate obligatorio en zonas críticas — dinero/auth/datos/migraciones).
     - Modo LOOP: .claude/commands/loop-cerrado.md + scripts/loop.* + loops/ (loop semi-automático en worktrees, con gates y tope de iteraciones).
     - ENFORCEMENT: .claude/settings.json (hooks SessionStart + UserPromptSubmit) + verification/REGLAS-ARNES.md (reinyectan las reglas cada turno para que el arnés no se salte a medio trabajo).
+    - CORRECCIÓN de subagentes viejos: revisá los .claude/agents/ que YA existen. Si alguno está en `model: gemini-...` o un modelo inferior, pasalo a `model: opus` (Claude Opus 4.8, el tope del arnés). Mismo criterio si hay plantillas de prompts que mencionen otro modelo.
 3. Versioná el arnés en git (para que la nube/VPS lo tengan al clonar): asegurate de que el
    .gitignore VERSIONE .claude/agents/, .claude/commands/, .claude/skills/ y .claude/settings.json,
    e IGNORE los secretos (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json).
@@ -172,8 +178,12 @@ y mostrame el plan ANTES de tocar nada; esperá mi "OK ejecuta".
       "cuando me corrijas o aprendas algo, actualizá memory/user_profile.md o memory/memory.md"; sección corta de los 4
       elementos. Mantenelo < 200 líneas.
     - Comando de inicio de día (si existe): que lea memory/user_profile.md y memory/memory.md.
-    - Script de verificación (preflight/init): sumá SOUL.md, memory/user_profile.md, memory/memory.md, context/ y .claude/skills/ a
-      la capa de ESTRUCTURA. NO toques las capas de lint/typecheck/tests.
+    - Script de verificación (preflight/init): sumá a la capa de ESTRUCTURA SOUL.md, memory/user_profile.md,
+      memory/memory.md, context/, .claude/skills/, verification/SECURITY.md y .claude/agents/auditor-seguridad.md.
+      Sumá una capa de SEGURIDAD básica: secretos fuera de git (.env en .gitignore; sin .env/.key/.pem trackeados).
+      Si el chequeo de tasks.json usa `command -v python3`, corregilo: probá que el intérprete REALMENTE ejecute
+      (en Windows/Git Bash "python3" suele ser un stub que no corre) y, si no hay validador, OMITÍ el chequeo en
+      vez de marcar falso error. NO toques las capas de lint/typecheck/tests del proyecto.
    - Registrá el cambio en progress/ y, si hay tasks.json, dejá la tarea en done.
 
 REGLAS: aditivo; NUNCA toques, leas ni commitees .env ni secretos; no instales dependencias sin
