@@ -34,6 +34,7 @@ el **cómo** operativo (reglas, verificación, flujo) está aquí.
 | Contexto curado del dominio | [`context/`](context/) |
 | SOPs reutilizables (skills) | [`.claude/skills/`](.claude/skills/) |
 | Cómo se verifica el trabajo | [`verification/README.md`](verification/README.md) |
+| Checklist de **seguridad** (dinero / auth / datos) | [`verification/SECURITY.md`](verification/SECURITY.md) |
 | Definición de los subagentes | [`.claude/agents/`](.claude/agents/) |
 
 ## 4. ⚠️ Antes de empezar CUALQUIER cambio
@@ -60,12 +61,20 @@ No hagas todo con un solo agente. Delega por roles:
  │ lee /  │ │ escribe      │ │ verifica │
  │investiga│ │ código       │ │ aprueba/ │
  └────────┘ └──────────────┘ │ rechaza  │
-                             └──────────┘
+                             └────┬─────┘
+                                  ▼  si toca ZONA CRÍTICA
+                        ┌────────────────────┐
+                        │ AUDITOR-SEGURIDAD  │  ¿es seguro?
+                        │  aprueba / rechaza │
+                        └────────────────────┘
 ```
 
 - Cada subagente arranca con **contexto limpio** y una **tarea concreta**.
 - Cada subagente escribe su resultado en **un archivo** dentro de [`progress/`](progress/),
   nunca solo en el chat. Así el siguiente no reinvestiga lo ya investigado.
+- **Zona crítica** (dinero/pagos/impuestos, auth, datos personales, migraciones, endpoints
+  públicos): el revisor **no alcanza**. El [`auditor-seguridad`](.claude/agents/auditor-seguridad.md)
+  debe aprobar **antes** de `done` y antes de producción. Ver [`verification/SECURITY.md`](verification/SECURITY.md).
 - Detalle de cada rol en [`.claude/agents/`](.claude/agents/).
 
 ## 6. Verificación (Pilar 3)
@@ -73,6 +82,12 @@ No hagas todo con un solo agente. Delega por roles:
 **El agente no termina porque diga que terminó. Termina cuando el arnés valida que terminó.**
 No confíes en "ya quedó, todo funciona". Verifica con capas (tests, lint, type check,
 Playwright, agente revisor). Detalle en [`verification/README.md`](verification/README.md).
+
+**Seguridad = capa propia y obligatoria.** Este arnés mueve dinero real, impuestos y datos de
+contribuyentes. El **revisor** dice "funciona"; el **auditor-seguridad** dice "es seguro". En
+zonas críticas, ninguna tarea pasa a `done` ni sube a producción sin el OK del auditor. Checklist
+adaptado al dominio (idempotencia, conciliación de pago QR, RLS, PII, inyección) en
+[`verification/SECURITY.md`](verification/SECURITY.md).
 
 ## 7. Reglas de oro
 

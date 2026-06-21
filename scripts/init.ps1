@@ -21,8 +21,8 @@ function Info($m) { Write-Host $m -ForegroundColor Cyan }
 Info "Verificando el arnes en: $root"
 
 # 1) Archivos y carpetas clave ----------------------------------------------
-Info "[1/4] Estructura del arnes"
-foreach ($f in 'CLAUDE.md','tasks.json','README.md','SOUL.md','memory/memory.md','memory/user_profile.md') {
+Info "[1/5] Estructura del arnes"
+foreach ($f in 'CLAUDE.md','tasks.json','README.md','SOUL.md','memory/memory.md','memory/user_profile.md','verification/SECURITY.md','.claude/agents/auditor-seguridad.md') {
   if (Test-Path $f) { Ok "existe $f" } else { Bad "falta $f" }
 }
 foreach ($d in 'scripts','.claude/agents','.claude/commands','.claude/skills','context','memory','progress','verification') {
@@ -30,7 +30,7 @@ foreach ($d in 'scripts','.claude/agents','.claude/commands','.claude/skills','c
 }
 
 # 2) CLAUDE.md corto (< 200 lineas) -----------------------------------------
-Info "[2/4] CLAUDE.md se mantiene corto (< 200 lineas)"
+Info "[2/5] CLAUDE.md se mantiene corto (< 200 lineas)"
 if (Test-Path CLAUDE.md) {
   $lines = (Get-Content CLAUDE.md | Measure-Object -Line).Lines
   if ($lines -lt 200) { Ok "CLAUDE.md tiene $lines lineas" }
@@ -38,18 +38,28 @@ if (Test-Path CLAUDE.md) {
 }
 
 # 3) tasks.json es JSON valido ----------------------------------------------
-Info "[3/4] tasks.json es JSON valido"
+Info "[3/5] tasks.json es JSON valido"
 try { Get-Content tasks.json -Raw | ConvertFrom-Json | Out-Null; Ok "tasks.json parsea" }
 catch { Bad "tasks.json NO es JSON valido" }
 
 # 4) Tests / lint / typecheck del proyecto ----------------------------------
 #    👇 Reemplaza estos placeholders por los comandos reales de tu stack.
-Info "[4/4] Tests del proyecto (placeholders — adaptar a tu stack)"
+Info "[4/5] Tests del proyecto (placeholders — adaptar a tu stack)"
 # Ejemplos:
 #   npm test        ; if ($LASTEXITCODE) { Bad "tests fallaron" }
 #   npm run lint    ; if ($LASTEXITCODE) { Bad "lint fallo" }
 #   pytest -q       ; if ($LASTEXITCODE) { Bad "pytest fallo" }
 Ok "sin tests configurados todavia (ver tarea T-002 en tasks.json)"
+
+# 5) Seguridad basica: secretos fuera de git --------------------------------
+Info "[5/5] Seguridad basica (secretos fuera de git)"
+if (Test-Path .gitignore) {
+  if ((Get-Content .gitignore -Raw) -match '(?m)^\.env') { Ok ".env esta en .gitignore" }
+  else { Bad ".env NO esta en .gitignore (LINEA ROJA)" }
+} else { Bad "falta .gitignore" }
+$tracked = & git ls-files 2>$null | Where-Object { $_ -match '(\.env($|\.))|(\.key$)|(\.pem$)' -and $_ -notmatch '\.example$' }
+if ($tracked) { Bad "secretos trackeados en git: $($tracked -join ', ')" }
+else { Ok "no hay .env/.key/.pem trackeados en git" }
 
 # Resultado ------------------------------------------------------------------
 Write-Host ""

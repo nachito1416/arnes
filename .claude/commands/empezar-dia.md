@@ -30,5 +30,8 @@ proponé antes de ejecutar.
 ## 4. Esperá mi OK — recién ahí se trabaja
 Cuando apruebe, delegás el loop: **orquestador → lector → implementador → revisor**, cada uno
 dejando su registro en `progress/`. Una tarea está "hecha" SOLO cuando el revisor la aprueba.
+Si la tarea toca una **zona crítica** (dinero, auth, datos personales, migraciones, endpoints
+públicos), sumá el **auditor-seguridad** después del revisor: sin su OK no hay `done` ni producción
+(ver [`verification/SECURITY.md`](../../verification/SECURITY.md)).
 
 **No empieces a codear hasta mi OK.**

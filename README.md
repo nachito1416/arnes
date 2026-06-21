@@ -61,6 +61,9 @@ equipo multiagente.
 La IA te puede *mentir sin querer* (una respuesta verosímil no es una respuesta correcta).
 El agente no termina porque diga que terminó — termina cuando **el arnés valida** que
 terminó. Capas: tests, linter, type check, Playwright y un [agente revisor](.claude/agents/revisor.md).
+En **zonas críticas** (dinero, auth, datos personales, migraciones) suma un
+[auditor de seguridad](.claude/agents/auditor-seguridad.md) que valida que el cambio es *seguro*,
+no solo que *funciona* (checklist en [`verification/SECURITY.md`](verification/SECURITY.md)).
 Si el revisor detecta mejoras, actualiza el propio arnés → **self-improving loop**.
 
 ---
@@ -82,15 +85,17 @@ Harness Engineering/
 │   │   ├── orquestador.md
 │   │   ├── lector.md
 │   │   ├── implementador.md
-│   │   └── revisor.md
+│   │   ├── revisor.md
+│   │   └── auditor-seguridad.md  # 🔒 audita zonas críticas (dinero/auth/datos)
 │   ├── commands/         # ⌨️  Comandos (p.ej. /empezar-dia)
 │   └── skills/           # 🛠️ SOPs reutilizables que se acumulan (Componente "herramientas")
 ├── context/              # 🧠 Contexto del dominio — curado y mínimo, bajo demanda
 ├── memory/               # 💾 Memoria fuera del modelo
-│   ├── memory.md         #    preferencias + aprendizajes (se lee al inicio; self-improving)
+│   ├── user_profile.md   #    preferencias del usuario (idioma, tono, control) — portable
+│   ├── memory.md         #    lecciones técnicas del repo (se lee al inicio; self-improving)
 │   └── decisions.md      #    decisiones de arquitectura (ADR ligero)
 ├── progress/             # 📝 Carpeta de progreso — bitácora de cada paso
-└── verification/         # 🔍 Pilar 3 — capas de verificación
+└── verification/         # 🔍 Pilar 3 — capas de verificación (incluye SECURITY.md)
 ```
 
 ---

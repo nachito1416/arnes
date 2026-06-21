@@ -1,7 +1,7 @@
 # Prompts para montar el arnés (Harness Engineering) en cualquier proyecto
 
 Pegá uno de estos prompts en Claude Code **con el proyecto abierto** (para que descubra
-`.claude/agents/` y los comandos). Los subagentes se crean en `model: gemini-1.5-pro` (Gemini 1.5 Pro) o `model: Opus` (Claude Opus 4.8).
+`.claude/agents/` y los comandos). Los subagentes se crean TODOS en `model: opus` (Claude Opus 4.8, el tope del arnés).
 
 El arnés actual incluye los **3 pilares** (vive en el código · subagentes por rol · verificación)
 y los **4 elementos del agente** (loop · contexto · memoria · herramientas). Prompt A y B ya lo
@@ -28,20 +28,23 @@ PASO 1 — Explorá y reportá:
   datos, migraciones, datos personales/sensibles) que NO se tocan sin plan humano numerado.
 
 PASO 2 — Proponé el plan (agregar SOLO lo que falte, todo aditivo):
-a) .claude/agents/ — 4 subagentes (formato Claude Code, TODOS en `model: gemini-1.5-pro` o `model: Opus` según prefieras Gemini o Anthropic):
+a) .claude/agents/ — 5 subagentes (formato Claude Code, TODOS en `model: opus` = Claude Opus 4.8, el tope del arnés):
    - orquestador: descompone y delega; exige plan para lo crítico; no escribe código.
    - lector: investiga en SOLO LECTURA y deja su resumen en progress/.
    - implementador: escribe respetando las reglas; RECHAZA tocar áreas críticas sin plan humano
      numerado; no marca "hecho".
    - revisor: corre el preflight y valida; aprueba o rechaza. Algo está "hecho" SOLO si él aprueba.
+   - auditor-seguridad: en ZONAS CRÍTICAS (dinero/pagos, auth, datos personales, migraciones),
+     audita la seguridad DESPUÉS del revisor; sin su OK no hay "hecho" ni producción. Solo-lectura.
    Embebé en cada subagente las reglas duras REALES de este proyecto.
 b) SOUL.md — identidad/voz/misión del asistente (con lo que detectaste; si dudás, plantilla + pedímelo).
 c) memory/ con user_profile.md (preferencias del usuario, idioma, tono; portable) + memory.md (lecciones técnicas específicas del repo) + decisions.md + README.
 d) context/ con README — dominio curado que se carga BAJO DEMANDA.
 e) .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (bucles de aprendizaje y curación autónoma).
-f) scripts/preflight.* — corre la verificación REAL (estructura del arnés → lint + typecheck +
-   tests) en orden, se detiene al primer fallo y sale con código ≠ 0. Exponelo como `npm run
-   preflight` (o el equivalente del stack).
+f) scripts/preflight.* — corre la verificación REAL (estructura del arnés → secretos fuera de git
+   → lint + typecheck + tests) en orden, se detiene al primer fallo y sale con código ≠ 0. Exponelo
+   como `npm run preflight` (o el equivalente del stack). Sumá `verification/SECURITY.md` con el
+   checklist de seguridad del dominio (dinero, auth, datos personales).
 g) progress/ — bitácora por sesión (README con la convención + un ejemplo).
 h) .claude/commands/empezar-dia.md — /empezar-dia: briefing de SOLO LECTURA (corre el preflight,
    lee memory/memory.md + progress/ + el roadmap/tareas, propone la próxima tarea y espera mi OK).
@@ -81,15 +84,17 @@ Creá:
    carpetas, reglas duras, cómo se verifica, flujo de subagentes y los 4 elementos. Cortito; lo
    extenso va en archivos enlazados.
 2. SOUL.md — identidad/voz/misión del asistente (con las respuestas de la entrevista).
-3. .claude/agents/ — 4 subagentes (TODOS en `model: gemini-1.5-pro` o `model: Opus`): orquestador (delega, exige plan para
+3. .claude/agents/ — 5 subagentes (TODOS en `model: opus` = Claude Opus 4.8): orquestador (delega, exige plan para
    lo crítico, no escribe código), lector (investiga, solo lectura), implementador (escribe;
    RECHAZA áreas críticas sin plan humano numerado; no marca "hecho"), revisor (verifica y
-   aprueba/rechaza; "hecho" solo cuando él aprueba). Reglas del proyecto embebidas.
+   aprueba/rechaza; "hecho" solo cuando él aprueba), auditor-seguridad (en zonas críticas —
+   dinero/auth/datos/migraciones — audita la seguridad después del revisor; sin su OK no hay
+   "hecho" ni producción; solo-lectura). Reglas del proyecto embebidas.
 4. memory/ con user_profile.md (preferencias del usuario; portable) + memory.md (lecciones técnicas del repo) + decisions.md + README.
 5. context/ con README — dominio curado que se carga BAJO DEMANDA (no infla el CLAUDE.md).
 6. .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (procedimientos estándar y aprendizaje autónomo).
-7. scripts/preflight.* — verificación (estructura del arnés → incluye user_profile.md y memory.md → lint + typecheck + tests del stack
-   elegido), se detiene al primer fallo. Exponelo como `npm run preflight` (o equivalente).
+7. scripts/preflight.* — verificación (estructura del arnés → incluye user_profile.md y memory.md → secretos fuera de git → lint + typecheck + tests del stack
+   elegido), se detiene al primer fallo. Exponelo como `npm run preflight` (o equivalente). Sumá `verification/SECURITY.md` (checklist de seguridad del dominio: dinero, auth, datos personales).
 8. tasks.json — tareas con estados (pending / in_progress / done / blocked).
 9. progress/ — bitácora por sesión (README + plantilla).
 10. .claude/commands/empezar-dia.md — /empezar-dia: briefing de inicio (corre el preflight, lee
@@ -141,6 +146,7 @@ y mostrame el plan ANTES de tocar nada; esperá mi "OK ejecuta".
     - memory/ con user_profile.md (perfil de usuario portable) + memory.md (lecciones técnicas) + README.
     - context/ con README (si no está).
     - .claude/skills/ con README + skill "registrar-aprendizaje" + skill "autocurar-skills" (curador autónomo).
+    - .claude/agents/auditor-seguridad.md + verification/SECURITY.md (capa de seguridad: gate obligatorio en zonas críticas — dinero/auth/datos/migraciones).
 3. Versioná el arnés en git (para que la nube/VPS lo tengan al clonar): asegurate de que el
    .gitignore VERSIONE .claude/agents/, .claude/commands/ y .claude/skills/, e IGNORE los secretos
    (.env, .env.*, .claude/settings.local.json, .claude/.credentials.json). Verificá con

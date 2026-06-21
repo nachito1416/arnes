@@ -22,7 +22,7 @@
           "id": { "type": "string", "pattern": "^T-[0-9]+$" },
           "title": { "type": "string" },
           "status": { "enum": ["pending", "in_progress", "done", "blocked"] },
-          "owner": { "enum": ["orquestador", "lector", "implementador", "revisor", null] },
+          "owner": { "enum": ["orquestador", "lector", "implementador", "revisor", "auditor-seguridad", null] },
           "priority": { "enum": ["low", "medium", "high"] },
           "notes": { "type": ["string", "null"] },
           "progress_log": { "type": ["string", "null"] }

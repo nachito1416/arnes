@@ -45,7 +45,33 @@ cuando mejora el arnes (self-improving loop).
   `git check-ignore`. El contenido de carpetas antes ignoradas solo existe en local → tras
   cambiar el `.gitignore` hay que `git add` + commit + push esos archivos desde la máquina local.
 
----
+## 2026-06-21 — Fijar los subagentes en Claude Opus 4.8 (`model: opus`)
+
+- **Decision:** los 4 subagentes (`orquestador`, `lector`, `implementador`, `revisor`) corren
+  TODOS en `model: opus` (Claude Opus 4.8). Se revierte el cambio previo que los había puesto en
+  `model: gemini-1.5-pro`. Las plantillas de `prompts-arnes.md` también fijan `model: opus`.
+- **Por que:** una actualización anterior hecha con Gemini cambió los subagentes a `gemini-1.5-pro`
+  sin registrar la decisión aquí (rompiendo el self-improving loop del arnés). Se prioriza máxima
+  calidad y un comportamiento predecible: Opus 4.8 como tope, sin caer a modelos inferiores.
+- **Consecuencias:** el frontmatter de cada agente usa el alias `opus` (apunta al Opus configurado,
+  hoy 4.8). La filosofía "el modelo es intercambiable" sigue en `README.md` a nivel conceptual
+  (el arnés es portable), pero la configuración concreta de ejecución queda anclada en Opus 4.8.
+
+## 2026-06-21 — Capa de seguridad obligatoria (Pilar 3 reforzado)
+
+- **Decision:** sumar al arnés un subagente **`auditor-seguridad`** (Opus 4.8, solo-lectura + Bash)
+  y un checklist **`verification/SECURITY.md`** adaptado al dominio (dinero/impuestos, pagos QR,
+  Supabase RLS, PII). En **zonas críticas** (dinero, auth, datos personales, migraciones, endpoints
+  públicos) ninguna tarea pasa a `done` ni a producción sin el OK del auditor. El preflight
+  (`init.*`) suma una capa que verifica que los secretos están fuera de git.
+- **Por que:** el arnés se usa para sistemas con dinero real, impuestos municipales e inversión.
+  El revisor validaba que algo *funciona*, pero nadie validaba que fuera *seguro* (inyección, doble
+  cobro, RLS, secretos, PII). Los videos de "loop engineering" tampoco cubren seguridad. Era el
+  hueco más caro de dejar abierto.
+- **Consecuencias:** nuevo rol `auditor-seguridad` (añadido al enum de `tasks.schema.json` y al
+  flujo en `CLAUDE.md`, `orquestador.md`, `revisor.md`, `empezar-dia.md`). Separación de funciones:
+  el auditor NO edita el código que audita (no tiene Write/Edit). Próximo paso acordado con el
+  usuario: el **loop semi-automático** (worktrees + gates + tope de coste), en una sesión aparte.
 
 <!-- Plantilla para nuevas entradas:
 
