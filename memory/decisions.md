@@ -73,6 +73,38 @@ cuando mejora el arnes (self-improving loop).
   el auditor NO edita el código que audita (no tiene Write/Edit). Próximo paso acordado con el
   usuario: el **loop semi-automático** (worktrees + gates + tope de coste), en una sesión aparte.
 
+## 2026-06-21 — Loop semi-automático (loop cerrado) acoplado al arnés
+
+- **Decision:** sumar un modo de trabajo **loop cerrado/semi-automático** sobre el loop abierto
+  existente: comando `/loop-cerrado` (protocolo), `scripts/loop.ps1`/`loop.sh` (git worktrees
+  aislados) y `loops/` (estado durable). El loop itera implementador→revisor→(auditor si crítico)
+  con **tope de 4 iteraciones**. **Alcance elegido por el usuario:** puede **mergear a `main` solo**
+  en cambios normales; en **zona crítica frena para OK humano antes de `main`**; el **deploy a
+  producción es siempre manual**.
+- **Por que:** los videos de "loop engineering" aportan justo esto (autonomía on-the-loop con
+  aislamiento y validación). El arnés ya tenía la "unidad de loop" (los subagentes); faltaba que
+  iterara sola, aislada y con frenos. Se mantiene el control humano donde hay dinero.
+- **Consecuencias:** salvaguarda de seguridad: en zona crítica el merge a `main` NO es automático
+  (motivo: `main` puede estar conectado a auto-deploy tipo Vercel y hay impuestos/dinero de por
+  medio). Líneas rojas del loop: gate humano antes de prod, tope de iteraciones, y trabajar siempre
+  en worktree/rama (nunca commit directo sobre `main`). Worktrees viven fuera del repo (hermano),
+  no se versionan; `loops/` (estado) sí se versiona como `progress/`.
+
+## 2026-06-21 — Enforcement del arnés por hooks (que no se salte a medio trabajo)
+
+- **Decision:** versionar `.claude/settings.json` con hooks `SessionStart` y `UserPromptSubmit` que
+  inyectan en contexto (vía `cat verification/REGLAS-ARNES.md`) un recordatorio compacto de las
+  reglas del arnés en cada turno y al iniciar sesión. Nuevo archivo `verification/REGLAS-ARNES.md`.
+- **Por que:** las reglas en `CLAUDE.md`/agentes son instrucciones que el modelo PUEDE saltarse a
+  medida que se llena el contexto (el usuario lo detectó: a medio trabajo Claude omitía el arnés si
+  no se lo recordaba). Los hooks los ejecuta el HARNESS, no el modelo → enforcement determinístico,
+  no depende de que "se acuerde".
+- **Consecuencias:** `.claude/settings.json` ahora se versiona (`.gitignore`: `!/.claude/settings.json`);
+  `settings.local.json` sigue ignorado. El comando `cat` funciona igual en Git Bash y PowerShell.
+  CAVEAT: como `settings.json` no existía al iniciar la sesión, el watcher puede no tomarlo hasta abrir
+  `/hooks` o reiniciar Claude Code. Si se quiere enforcement más duro, se puede sumar un PreToolUse
+  bloqueante sobre Edit/Write (más intrusivo; no implementado por ahora).
+
 <!-- Plantilla para nuevas entradas:
 
 ## AAAA-MM-DD — Titulo corto de la decision

@@ -36,6 +36,7 @@ el **cómo** operativo (reglas, verificación, flujo) está aquí.
 | Cómo se verifica el trabajo | [`verification/README.md`](verification/README.md) |
 | Checklist de **seguridad** (dinero / auth / datos) | [`verification/SECURITY.md`](verification/SECURITY.md) |
 | Definición de los subagentes | [`.claude/agents/`](.claude/agents/) |
+| Correr un **loop** semi-automático | [`.claude/commands/loop-cerrado.md`](.claude/commands/loop-cerrado.md) · estado en [`loops/`](loops/) |
 
 ## 4. ⚠️ Antes de empezar CUALQUIER cambio
 
@@ -76,6 +77,11 @@ No hagas todo con un solo agente. Delega por roles:
   públicos): el revisor **no alcanza**. El [`auditor-seguridad`](.claude/agents/auditor-seguridad.md)
   debe aprobar **antes** de `done` y antes de producción. Ver [`verification/SECURITY.md`](verification/SECURITY.md).
 - Detalle de cada rol en [`.claude/agents/`](.claude/agents/).
+- **Dos modos de trabajo:** *abierto* (vos en cada paso, lo habitual: `/empezar-dia`) y *cerrado*
+  (semi-automático: el equipo itera solo en un worktree aislado, con tope de 4 vueltas y gates,
+  hasta dejarte el trabajo listo). El cerrado se dispara con
+  [`/loop-cerrado`](.claude/commands/loop-cerrado.md): nunca cruza a producción solo y, en zona
+  crítica, frena para tu OK antes de `main`.
 
 ## 6. Verificación (Pilar 3)
 

@@ -56,8 +56,26 @@
       "status": "done",
       "owner": "orquestador",
       "priority": "high",
-      "notes": "Subagente auditor-seguridad (Opus) + verification/SECURITY.md adaptado al dominio (dinero/impuestos/QR/RLS/PII) + gate obligatorio en zonas criticas + init.* verifica secretos fuera de git. Siguiente: loop semi-automatico (sesion aparte).",
+      "notes": "Subagente auditor-seguridad (Opus) + verification/SECURITY.md adaptado al dominio (dinero/impuestos/QR/RLS/PII) + gate obligatorio en zonas criticas + init.* verifica secretos fuera de git.",
       "progress_log": "progress/2026-06-21-capa-seguridad.md"
+    },
+    {
+      "id": "T-007",
+      "title": "Montar el loop semi-automatico (worktrees + protocolo + gates + tope)",
+      "status": "done",
+      "owner": "orquestador",
+      "priority": "high",
+      "notes": "scripts/loop.* (git worktrees aislados, probado), comando /loop-cerrado (protocolo con tope de 4 iteraciones y gates), loops/ (estado durable). Alcance: puede mergear a main en cambios normales; zona critica frena para OK humano antes de main; deploy a prod siempre manual.",
+      "progress_log": "progress/2026-06-21-loop-semiautomatico.md"
+    },
+    {
+      "id": "T-008",
+      "title": "Enforcement del arnes por hooks (SessionStart + UserPromptSubmit)",
+      "status": "done",
+      "owner": "orquestador",
+      "priority": "high",
+      "notes": "Hooks en .claude/settings.json (versionado) que reinyectan verification/REGLAS-ARNES.md cada turno y al iniciar sesion, para que Claude no se salte el arnes a medio trabajo. Verificado: pipe-test + JSON valido + git check-ignore. Activar con /hooks o reiniciar Claude Code.",
+      "progress_log": "progress/2026-06-21-enforcement-hooks.md"
     }
   ]
 }

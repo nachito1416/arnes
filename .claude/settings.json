@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat verification/REGLAS-ARNES.md",
+            "timeout": 10,
+            "statusMessage": "Cargando reglas del arnes..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat verification/REGLAS-ARNES.md",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -17,9 +17,9 @@ secrets/
 !/.claude/agents/
 !/.claude/commands/
 !/.claude/skills/
+!/.claude/settings.json
 /.claude/settings.local.json
 /.claude/.credentials.json
-# (Para versionar settings compartidos del equipo, agregá:  !/.claude/settings.json)
 
 # OS / editor
 .DS_Store

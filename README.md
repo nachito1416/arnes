@@ -78,7 +78,9 @@ Harness Engineering/
 ├── tasks.json            # 📋 Tareas con estados (pending / in_progress / done / blocked)
 ├── scripts/
 │   ├── init.sh           # ✅ Verificación pre-sesión (bash / Linux / macOS)
-│   └── init.ps1          # ✅ Verificación pre-sesión (Windows / PowerShell)
+│   ├── init.ps1          # ✅ Verificación pre-sesión (Windows / PowerShell)
+│   ├── loop.sh           # 🔁 Worktrees aislados para el loop semi-automático (bash)
+│   └── loop.ps1          # 🔁 Worktrees aislados para el loop semi-automático (Windows)
 ├── .claude/
 │   ├── settings.local.json
 │   ├── agents/           # 🤖 Pilar 2 — subagentes por rol
@@ -95,6 +97,7 @@ Harness Engineering/
 │   ├── memory.md         #    lecciones técnicas del repo (se lee al inicio; self-improving)
 │   └── decisions.md      #    decisiones de arquitectura (ADR ligero)
 ├── progress/             # 📝 Carpeta de progreso — bitácora de cada paso
+├── loops/                # 🔁 Estado durable de los loops semi-automáticos (loop state)
 └── verification/         # 🔍 Pilar 3 — capas de verificación (incluye SECURITY.md)
 ```
 
