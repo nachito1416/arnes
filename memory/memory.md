@@ -8,5 +8,5 @@
 - Evitar inflar la ventana de contexto de Claude Code manteniendo la memoria compacta y organizada.
 
 ## Atajos / aprendizajes técnicos (qué funciona y qué no)
-- *(vacío — "intentamos usar la librería X pero falló por la versión Y", para evitar repetir errores)*
+- **Playwright se instala con npm, NO clonando el repo de GitHub.** `npm install -D @playwright/test` + `npx playwright install chromium` (solo Chromium, ~113 MB: más rápido que bajar los 3 navegadores). Headless por defecto; `--headed` para verlo en vivo; `npx playwright codegen <url>` graba clics y genera el test solo. Verificado el 2026-06-21 (2 tests en verde en `C:\playwright-demo`). La máquina del usuario ya tiene Node v24 / npm 11. La capa Playwright llave-en-mano vive en el Prompt C de `prompts-arnes.md`.
 

@@ -129,12 +129,28 @@ Al terminar, corré el preflight y mostrame que pasa en verde.
 ## PROMPT C — Capa Playwright (opcional, después de tener el arnés base, si hay UI)
 
 ```
-Montá la capa de verificación E2E con Playwright, SOLO para flujos PÚBLICOS y seguros (nada de
-pagos, auth ni datos reales). Entrá en plan mode y proponé antes de instalar dependencias.
-Incluí: playwright.config.ts (Chromium, desktop + móvil 375px, que levante el dev server solo),
-1-2 specs de flujos públicos, scripts npm (e2e / e2e:ui / e2e:install), entradas en .gitignore
-para los artefactos, un flag --e2e en scripts/preflight, y que el subagente revisor corra
-`npm run e2e` en tareas de UI. Al terminar, corré `npm run e2e` y mostrame que pasa en verde.
+Montá la capa de verificación E2E con Playwright en ESTE proyecto (solo si tiene UI). Entrá en PLAN
+MODE y proponé ANTES de instalar dependencias (el arnés no instala nada sin avisar).
+
+SEGURIDAD (innegociable): probá SOLO flujos PÚBLICOS y seguros. NADA de pagos reales, login con
+credenciales reales, ni datos reales de contribuyentes. Para lo crítico se usan datos de prueba.
+
+PASOS:
+1. Instalá (NO se clona el repo de GitHub; se instala con npm):
+   - `npm install -D @playwright/test`
+   - `npx playwright install chromium`   (solo Chromium: ~113 MB, más rápido que bajar los 3 navegadores)
+2. playwright.config.ts: testDir `./e2e`, reporter 'list', headless, screenshot 'only-on-failure',
+   proyectos Chromium desktop + móvil (viewport 375px), y `webServer` que levante el dev server solo
+   (command + url + reuseExistingServer) para no depender de uno corriendo a mano.
+3. 1-2 specs de flujos PÚBLICOS (home carga, navegación, un formulario sin datos reales) en `./e2e`.
+4. Scripts en package.json: `"e2e": "playwright test"`, `"e2e:ui": "playwright test --ui"`,
+   `"e2e:install": "playwright install chromium"`.
+5. .gitignore: sumá `test-results/`, `playwright-report/`, `blob-report/`, `.playwright/` (artefactos, NO se versionan).
+6. Enganchá con el arnés: un flag `--e2e` en scripts/preflight (init.*) que corra `npm run e2e`,
+   y que el subagente REVISOR corra `npm run e2e` en tareas de UI antes de aprobar.
+
+Al terminar, corré `npm run e2e` y mostrame que pasa en VERDE (evidencia real, no "ya funciona").
+Tip: `--headed` para ver el navegador en vivo; `npx playwright codegen <url>` graba clics y escribe el test.
 ```
 
 ---
